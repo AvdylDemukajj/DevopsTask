@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-message-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-message
+  template:
+    metadata:
+      labels:
+        app: node-message
+    spec:
+      containers:
+      - name: node-message
+        image: node-message-app:1.0
+        ports:
+        - containerPort: 3000
+        env:
+        - name: MESSAGE
+          valueFrom:
+            configMapKeyRef:
+              name: message-config
+              key: MESSAGE
